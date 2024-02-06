@@ -32,38 +32,57 @@ namespace Game_of_Life
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            PlayPauseButton = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
-            // Form1
+            // PlayPauseButton
+            // 
+            PlayPauseButton.Location = new Point(766, 497);
+            PlayPauseButton.Name = "PlayPauseButton";
+            PlayPauseButton.Size = new Size(122, 47);
+            PlayPauseButton.TabIndex = 0;
+            PlayPauseButton.Text = "Play";
+            PlayPauseButton.UseVisualStyleBackColor = true;
+            PlayPauseButton.Click += playPauseButton_Click;
+            // 
+            // timer1
+            // 
+            timer1.Interval = 50;
+            timer1.Tick += timer1_Tick;
+            // 
+            // GameWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(900, 870);
-            Name = "Game Window";
+            ClientSize = new Size(911, 563);
+            Controls.Add(PlayPauseButton);
+            Name = "GameWindow";
             Text = "Game of Life";
             ResumeLayout(false);
         }
 
+        #endregion
+
         private void Generate_Game_Matrix()
         {
-            var gridWidth = 99;
-            var gridHeight = 99;
-            var buttonWidth = 8;
-            var buttonHeight = 8;
+            var gridWidth = 20;
+            var gridHeight = 20;
+            var buttonLength = 20;
 
-            for (var h = 0; h < gridHeight; h++)
+            for (var y = 0; y < gridHeight; y++)
             {
                 var row = new List<Panel>(gridWidth);
-                for (var w = 0; w < gridWidth; w++)
+                for (var x = 0; x < gridWidth; x++)
                 {
-                    var location = new Point(10 + (buttonWidth * w), 10 + (buttonHeight * h));
                     var panel = new Panel()
                     {
-                        Name = $"{location.X}_{location.Y}",
-                        Location = location,
-                        Size = new Size(buttonWidth, buttonHeight),
+                        Name = $"{y}_{x}",
+                        Location = new Point(10 + (buttonLength * x), 10 + (buttonLength * y)),
+                        Size = new Size(buttonLength, buttonLength),
                         BackColor = Color.Gray,
-                        Capture = false
+                        Capture = false,
                     };
                     panel.Click += panel_Click;
                     row.Add(panel);
@@ -73,6 +92,7 @@ namespace Game_of_Life
             };
         }
 
-        #endregion
+        private Button PlayPauseButton;
+        private System.Windows.Forms.Timer timer1;
     }
 }
