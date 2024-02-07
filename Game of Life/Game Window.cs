@@ -18,14 +18,7 @@ namespace Game_of_Life
             Generate_Game_Matrix();
         }
 
-        private void Panel_Colour_Switch(object sender)
-        {
-            var p = sender as Panel;
-            p.BackColor = p.BackColor == Color.Yellow ? Color.Gray : Color.Yellow;
-            p.Refresh();
-        }
-
-        private IEnumerable<Panel> Process_Panel(Panel panel, bool firstInvocation = true)
+        private IEnumerable<Panel> Live_Or_Die(Panel panel, bool firstInvocation = true)
         {
             var name = panel.Name.Split("_");
             var y = int.Parse(name[0]);
@@ -42,7 +35,7 @@ namespace Game_of_Life
                         if (neighbour.BackColor == Color.Yellow)
                             activeNeighbours++;
 
-                        if (firstInvocation && Process_Panel(neighbour, false).Any())
+                        if (firstInvocation && Live_Or_Die(neighbour, false).Any())
                             yield return neighbour;
                     }
                 }
@@ -54,7 +47,7 @@ namespace Game_of_Life
                 yield return panel;
         }
 
-        private void panel_Click(object sender, EventArgs e) => Panel_Colour_Switch(sender);
+        private void panel_Click(object sender, EventArgs e) => (sender as Panel)?.Toggle_Colour();
 
         private void playPauseButton_Click(object sender, EventArgs e) => ((Button)sender).Text = (refreshTimer.Enabled = !refreshTimer.Enabled) ? "Pause" : "Play";
 
@@ -64,10 +57,10 @@ namespace Game_of_Life
 
             // Get the panels that need to be updated without changing their states
             foreach (var panel in panelMatrix.SelectMany(row => row.Where(p => p.BackColor == Color.Yellow)))
-                invocations.AddRange(Process_Panel(panel).Where(x => !invocations.Contains(x)));
+                invocations.AddRange(Live_Or_Die(panel).Where(x => !invocations.Contains(x)));
 
             // Update the states of the returned panels
-            invocations.ForEach(panel => panel.Invoke(() => Panel_Colour_Switch(panel)));
+            invocations.ForEach(panel => panel.Toggle_Colour());
         }
     }
 }
