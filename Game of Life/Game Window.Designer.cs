@@ -56,37 +56,78 @@ namespace Game_of_Life
         private void InitializeComponent()
         {
             components = new Container();
-            PlayPauseButton = new Button();
+            playPauseButton = new Button();
             refreshTimer = new Timer(components);
+            speedSlider = new TrackBar();
+            bindingSource1 = new BindingSource(components);
+            resetButton = new Button();
+            ((ISupportInitialize)speedSlider).BeginInit();
+            ((ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
-            // PlayPauseButton
+            // playPauseButton
             // 
-            PlayPauseButton.Location = new Point(862, 769);
-            PlayPauseButton.Name = "PlayPauseButton";
-            PlayPauseButton.Size = new Size(122, 47);
-            PlayPauseButton.TabIndex = 0;
-            PlayPauseButton.Text = "Play";
-            PlayPauseButton.UseVisualStyleBackColor = true;
-            PlayPauseButton.Click += playPauseButton_Click;
+            playPauseButton.Location = new Point(367, 1028);
+            playPauseButton.Margin = new Padding(3, 4, 3, 4);
+            playPauseButton.Name = "playPauseButton";
+            playPauseButton.Size = new Size(139, 63);
+            playPauseButton.TabIndex = 0;
+            playPauseButton.Text = "Play";
+            playPauseButton.UseVisualStyleBackColor = true;
+            playPauseButton.Click += playPauseButton_Click;
             // 
             // refreshTimer
             // 
-            refreshTimer.Tick += timer1_Tick;
+            refreshTimer.Interval = 499;
+            refreshTimer.Tick += refreshTimer_Tick;
+            // 
+            // speedSlider
+            // 
+            speedSlider.Location = new Point(12, 1036);
+            speedSlider.Maximum = 499;
+            speedSlider.Minimum = 1;
+            speedSlider.Name = "speedSlider";
+            speedSlider.RightToLeft = RightToLeft.Yes;
+            speedSlider.Size = new Size(349, 56);
+            speedSlider.SmallChange = 5;
+            speedSlider.TabIndex = 1;
+            speedSlider.TickFrequency = 5;
+            speedSlider.Value = 499;
+            speedSlider.Scroll += speedSlider_Scroll;
+            // 
+            // resetButton
+            // 
+            resetButton.Location = new Point(512, 1028);
+            resetButton.Margin = new Padding(3, 4, 3, 4);
+            resetButton.Name = "resetButton";
+            resetButton.Size = new Size(139, 63);
+            resetButton.TabIndex = 2;
+            resetButton.Text = "Reset";
+            resetButton.UseVisualStyleBackColor = true;
+            resetButton.Click += resetButton_Click;
             // 
             // GameWindow
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(996, 828);
-            Controls.Add(PlayPauseButton);
+            ClientSize = new Size(1138, 1104);
+            Controls.Add(resetButton);
+            Controls.Add(speedSlider);
+            Controls.Add(playPauseButton);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "GameWindow";
             Text = "Game of Life";
+            ((ISupportInitialize)speedSlider).EndInit();
+            ((ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
         #endregion
 
-        private Button PlayPauseButton;
+        private Button playPauseButton;
         private Timer refreshTimer;
+        private TrackBar speedSlider;
+        private BindingSource bindingSource1;
+        private Button resetButton;
     }
 }

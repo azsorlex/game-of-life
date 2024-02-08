@@ -23,15 +23,15 @@ namespace Game_of_Life
         private IEnumerable<Panel> Live_Or_Die(Panel panel, ConcurrentDictionary<string, Panel>? existingInvocations, bool firstInvocation = true)
         {
             var name = panel.Name.Split("_");
-            var y = int.Parse(name[0]);
-            var x = int.Parse(name[1]);
-
+            var y = byte.Parse(name[0]);
+            var x = byte.Parse(name[1]);
             byte activeNeighbours = 0;
+
             for (var nY = y - 1; nY <= y + 1; nY++)
             {
                 for (var nX = x - 1; nX <= x + 1; nX++)
                 {
-                    if (!(nY == y && nX == x) && nY >= 0 && nY < gridHeight && nX >= 0 && nX < gridWidth)
+                    if (nY >= 0 && nY < gridHeight && nX >= 0 && nX < gridWidth && !(nY == y && nX == x))
                     {
                         var neighbour = panelMatrix[nY][nX];
                         if (neighbour.BackColor == Color.Yellow)
@@ -58,7 +58,7 @@ namespace Game_of_Life
             var invocations = new ConcurrentDictionary<string, Panel>();
 
             // Get the panels that need to be updated without changing their states
-            Parallel.ForEach(panelMatrix.SelectMany(row => row.Where(p => p.BackColor == Color.Yellow)), panel =>
+            Parallel.ForEach(panelMatrix.GetActivePanels(), panel =>
             {
                 foreach (var x in Live_Or_Die(panel, invocations))
                     invocations.TryAdd(x.Name, x);
@@ -67,6 +67,17 @@ namespace Game_of_Life
             // Update the states of the returned panels
             foreach (var panel in invocations.Values)
                 panel.Toggle_Colour();
+        }
+
+        private void speedSlider_Scroll(object sender, EventArgs e) => refreshTimer.Interval = (sender as TrackBar).Value;
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            if (refreshTimer.Enabled)
+                playPauseButton.PerformClick();
+
+            foreach (var panel in panelMatrix.GetActivePanels())
+                panel.Set_Colour(Color.Gray);
         }
     }
 }
