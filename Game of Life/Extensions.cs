@@ -2,7 +2,12 @@
 {
     public static class Extensions
     {
-        public static IEnumerable<Panel> GetActivePanels(this Panel[][] matrix) => matrix.SelectMany(row => row.Where(p => p.BackColor == Color.Yellow));
+        public static IEnumerable<Panel> GetActivePanels(this Panel[,] matrix)
+        {
+            foreach (var panel in matrix)
+                if (panel.BackColor == Color.Yellow)
+                    yield return panel;
+        }
 
         public static void Toggle_Colour(this Panel panel)
         {

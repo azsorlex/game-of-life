@@ -28,7 +28,6 @@ namespace Game_of_Life
         {
             for (var y = 0; y < gridHeight; y++)
             {
-                var row = new Panel[gridWidth];
                 for (var x = 0; x < gridWidth; x++)
                 {
                     var panel = new Panel()
@@ -40,10 +39,9 @@ namespace Game_of_Life
                         BorderStyle = BorderStyle.FixedSingle
                     };
                     panel.Click += panel_Click;
-                    row[x] = panel;
+                    panelMatrix[y, x] = panel;
+                    Controls.Add(panel);
                 }
-                panelMatrix[y] = row;
-                Controls.AddRange(row);
             }
         }
 
@@ -59,10 +57,8 @@ namespace Game_of_Life
             playPauseButton = new Button();
             refreshTimer = new Timer(components);
             speedSlider = new TrackBar();
-            bindingSource1 = new BindingSource(components);
             resetButton = new Button();
             ((ISupportInitialize)speedSlider).BeginInit();
-            ((ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
             // playPauseButton
@@ -118,7 +114,6 @@ namespace Game_of_Life
             Name = "GameWindow";
             Text = "Game of Life";
             ((ISupportInitialize)speedSlider).EndInit();
-            ((ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,7 +122,6 @@ namespace Game_of_Life
         private Button playPauseButton;
         private Timer refreshTimer;
         private TrackBar speedSlider;
-        private BindingSource bindingSource1;
         private Button resetButton;
     }
 }

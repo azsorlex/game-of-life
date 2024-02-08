@@ -7,11 +7,11 @@ namespace Game_of_Life
         private readonly int gridWidth;
         private readonly int gridHeight;
         private readonly int buttonLength;
-        private readonly Panel[][] panelMatrix;
+        private readonly Panel[,] panelMatrix;
 
         public GameWindow(int width, int height, int buttonLength)
         {
-            panelMatrix = new Panel[height][];
+            panelMatrix = new Panel[height, width];
             gridWidth = width;
             gridHeight = height;
             this.buttonLength = buttonLength;
@@ -33,7 +33,7 @@ namespace Game_of_Life
                 {
                     if (nY >= 0 && nY < gridHeight && nX >= 0 && nX < gridWidth && !(nY == y && nX == x))
                     {
-                        var neighbour = panelMatrix[nY][nX];
+                        var neighbour = panelMatrix[nY, nX];
                         if (neighbour.BackColor == Color.Yellow)
                             activeNeighbours++;
 
