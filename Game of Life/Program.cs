@@ -11,7 +11,7 @@ namespace Game_of_Life
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new GameWindow(100, 99, 10));
+            Application.Run(new GameWindow(150, 100, 8));
         }
     }
 }

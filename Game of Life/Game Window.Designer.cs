@@ -26,23 +26,64 @@ namespace Game_of_Life
 
         private void Generate_Game_Matrix()
         {
+            for (var x = 0; x < gridWidth;  x++)
+            {
+                var column = new DataGridViewColumn();
+                column.Width = buttonLength;
+                column.CellTemplate = new DataGridViewTextBoxCell();
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet;
+                column.Resizable = DataGridViewTriState.False;
+                gameGrid.Columns.Add(column);
+            }
             for (var y = 0; y < gridHeight; y++)
             {
-                for (var x = 0; x < gridWidth; x++)
-                {
-                    var panel = new Panel()
-                    {
-                        Name = $"{y}_{x}",
-                        Location = new(10 + ((buttonLength - 1) * x), 10 + ((buttonLength - 1) * y)),
-                        Size = new(buttonLength, buttonLength),
-                        BackColor = Color.Gray,
-                        BorderStyle = BorderStyle.FixedSingle
-                    };
-                    panel.Click += panel_Click;
-                    panelMatrix[y, x] = panel;
-                    Controls.Add(panel);
-                }
+                var row = new DataGridViewRow();
+                row.Height = buttonLength;
+                row.Resizable = DataGridViewTriState.False;
+                gameGrid.Rows.Add(row);
             }
+            foreach (var cell in gameGrid)
+                cell.Style.BackColor = Color.Gray;
+        }
+
+        private void InitializeGameGrid()
+        {
+            // 
+            // gameGrid
+            // 
+            gameGrid.AllowUserToAddRows = false;
+            gameGrid.AllowUserToDeleteRows = false;
+            gameGrid.AllowUserToResizeColumns = false;
+            gameGrid.AllowUserToResizeRows = false;
+            gameGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            gameGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            gameGrid.CausesValidation = false;
+            gameGrid.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
+            gameGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            gameGrid.ColumnHeadersHeight = 29;
+            gameGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            gameGrid.ColumnHeadersVisible = false;
+            gameGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
+            gameGrid.EnableHeadersVisualStyles = false;
+            gameGrid.Location = new Point(12, 12);
+            gameGrid.MultiSelect = false;
+            gameGrid.Name = "gameGrid";
+            gameGrid.ReadOnly = true;
+            gameGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            gameGrid.RowHeadersVisible = false;
+            gameGrid.RowHeadersWidth = 51;
+            gameGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            gameGrid.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            gameGrid.ShowCellErrors = false;
+            gameGrid.ShowCellToolTips = false;
+            gameGrid.ShowEditingIcon = false;
+            gameGrid.ShowRowErrors = false;
+            gameGrid.Size = new Size(1317, 811);
+            gameGrid.TabIndex = 3;
+            gameGrid.TabStop = false;
+            gameGrid.VirtualMode = true;
+            gameGrid.CellClick += gameGrid_CellClick;
+            Controls.Add(gameGrid);
         }
 
         #region Windows Form Designer generated code
@@ -58,12 +99,15 @@ namespace Game_of_Life
             refreshTimer = new Timer(components);
             speedSlider = new TrackBar();
             resetButton = new Button();
+            gameGrid = new GameGrid(gridWidth, gridHeight);
             ((ISupportInitialize)speedSlider).BeginInit();
+            ((ISupportInitialize)gameGrid).BeginInit();
             SuspendLayout();
+            InitializeGameGrid();
             // 
             // playPauseButton
             // 
-            playPauseButton.Location = new Point(367, 1028);
+            playPauseButton.Location = new Point(372, 830);
             playPauseButton.Margin = new Padding(3, 4, 3, 4);
             playPauseButton.Name = "playPauseButton";
             playPauseButton.Size = new Size(139, 63);
@@ -79,7 +123,7 @@ namespace Game_of_Life
             // 
             // speedSlider
             // 
-            speedSlider.Location = new Point(12, 1036);
+            speedSlider.Location = new Point(17, 838);
             speedSlider.Maximum = 499;
             speedSlider.Minimum = 1;
             speedSlider.Name = "speedSlider";
@@ -93,7 +137,7 @@ namespace Game_of_Life
             // 
             // resetButton
             // 
-            resetButton.Location = new Point(512, 1028);
+            resetButton.Location = new Point(517, 830);
             resetButton.Margin = new Padding(3, 4, 3, 4);
             resetButton.Name = "resetButton";
             resetButton.Size = new Size(139, 63);
@@ -106,7 +150,7 @@ namespace Game_of_Life
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1138, 1104);
+            ClientSize = new Size(1341, 906);
             Controls.Add(resetButton);
             Controls.Add(speedSlider);
             Controls.Add(playPauseButton);
@@ -114,6 +158,7 @@ namespace Game_of_Life
             Name = "GameWindow";
             Text = "Game of Life";
             ((ISupportInitialize)speedSlider).EndInit();
+            ((ISupportInitialize)gameGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -123,5 +168,6 @@ namespace Game_of_Life
         private Timer refreshTimer;
         private TrackBar speedSlider;
         private Button resetButton;
+        private GameGrid gameGrid;
     }
 }
