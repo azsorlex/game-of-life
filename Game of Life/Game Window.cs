@@ -29,9 +29,9 @@ namespace Game_of_Life
                     if (nY >= 0 && nY < gridHeight && nX >= 0 && nX < gridWidth && !(nY == y && nX == x) && gameGrid[nX, nY].Style.BackColor == Color.Yellow)
                         activeNeighbours++;
 
-            if ((activeNeighbours == 3 && cell.Style.BackColor == Color.Gray) ||
-                (activeNeighbours < 2 && cell.Style.BackColor == Color.Yellow) ||
-                (activeNeighbours >= 4 && cell.Style.BackColor == Color.Yellow))
+            if ((activeNeighbours == creationNeighboursSelector.Value && cell.Style.BackColor == Color.Gray) ||
+                (activeNeighbours <= underpopulationDeathSelector.Value && cell.Style.BackColor == Color.Yellow) ||
+                (activeNeighbours >= overpopulationDeathSelector.Value && cell.Style.BackColor == Color.Yellow))
                 gameGrid.BeginInvoke(cell.Toggle_Colour);
         });
 
@@ -41,6 +41,10 @@ namespace Game_of_Life
         {
             if (refreshTimer.Enabled)
                 playPauseButton.PerformClick();
+
+            creationNeighboursSelector.Value = 3;
+            underpopulationDeathSelector.Value = 1;
+            overpopulationDeathSelector.Value = 4;
 
             foreach (var cell in gameGrid.Where(x => x.Style.BackColor == Color.Yellow))
                 cell.Toggle_Colour();

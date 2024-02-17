@@ -99,8 +99,17 @@ namespace Game_of_Life
             refreshTimer = new Timer(components);
             speedSlider = new TrackBar();
             resetButton = new Button();
+            creationNeighboursSelector = new NumericUpDown();
+            label1 = new Label();
+            label2 = new Label();
+            underpopulationDeathSelector = new NumericUpDown();
+            label3 = new Label();
+            overpopulationDeathSelector = new NumericUpDown();
             gameGrid = new GameGrid(gridWidth, gridHeight);
             ((ISupportInitialize)speedSlider).BeginInit();
+            ((ISupportInitialize)creationNeighboursSelector).BeginInit();
+            ((ISupportInitialize)underpopulationDeathSelector).BeginInit();
+            ((ISupportInitialize)overpopulationDeathSelector).BeginInit();
             ((ISupportInitialize)gameGrid).BeginInit();
             SuspendLayout();
             InitializeGameGrid();
@@ -146,11 +155,74 @@ namespace Game_of_Life
             resetButton.UseVisualStyleBackColor = true;
             resetButton.Click += resetButton_Click;
             // 
+            // creationNeighboursSelector
+            // 
+            creationNeighboursSelector.Location = new Point(755, 853);
+            creationNeighboursSelector.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            creationNeighboursSelector.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            creationNeighboursSelector.Name = "creationNeighboursSelector";
+            creationNeighboursSelector.Size = new Size(37, 27);
+            creationNeighboursSelector.TabIndex = 3;
+            creationNeighboursSelector.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(712, 830);
+            label1.Name = "label1";
+            label1.Size = new Size(146, 20);
+            label1.TabIndex = 4;
+            label1.Text = "Creation Neighbours";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(864, 830);
+            label2.Name = "label2";
+            label2.Size = new Size(166, 20);
+            label2.TabIndex = 6;
+            label2.Text = "Underpopulation Death";
+            // 
+            // underpopulationDeathSelector
+            // 
+            underpopulationDeathSelector.Location = new Point(926, 853);
+            underpopulationDeathSelector.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            underpopulationDeathSelector.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            underpopulationDeathSelector.Name = "underpopulationDeathSelector";
+            underpopulationDeathSelector.Size = new Size(37, 27);
+            underpopulationDeathSelector.TabIndex = 5;
+            underpopulationDeathSelector.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(1036, 830);
+            label3.Name = "label3";
+            label3.Size = new Size(157, 20);
+            label3.TabIndex = 8;
+            label3.Text = "Overpopulation Death";
+            // 
+            // overpopulationDeathSelector
+            // 
+            overpopulationDeathSelector.Location = new Point(1089, 853);
+            overpopulationDeathSelector.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            overpopulationDeathSelector.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            overpopulationDeathSelector.Name = "overpopulationDeathSelector";
+            overpopulationDeathSelector.Size = new Size(37, 27);
+            overpopulationDeathSelector.TabIndex = 7;
+            overpopulationDeathSelector.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            // 
             // GameWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1341, 906);
+            Controls.Add(label3);
+            Controls.Add(overpopulationDeathSelector);
+            Controls.Add(label2);
+            Controls.Add(underpopulationDeathSelector);
+            Controls.Add(label1);
+            Controls.Add(creationNeighboursSelector);
             Controls.Add(resetButton);
             Controls.Add(speedSlider);
             Controls.Add(playPauseButton);
@@ -158,6 +230,9 @@ namespace Game_of_Life
             Name = "GameWindow";
             Text = "Game of Life";
             ((ISupportInitialize)speedSlider).EndInit();
+            ((ISupportInitialize)creationNeighboursSelector).EndInit();
+            ((ISupportInitialize)underpopulationDeathSelector).EndInit();
+            ((ISupportInitialize)overpopulationDeathSelector).EndInit();
             ((ISupportInitialize)gameGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -169,5 +244,11 @@ namespace Game_of_Life
         private TrackBar speedSlider;
         private Button resetButton;
         private GameGrid gameGrid;
+        private NumericUpDown creationNeighboursSelector;
+        private Label label1;
+        private Label label2;
+        private NumericUpDown underpopulationDeathSelector;
+        private Label label3;
+        private NumericUpDown overpopulationDeathSelector;
     }
 }
